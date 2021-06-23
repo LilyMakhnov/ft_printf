@@ -4,7 +4,13 @@
 
 int main()
 {
-	ft_printf("%f\n", 42.0);
-	printf("%f\n",    42.0);
+//	int a = 5;
+//	int *p = NULL;
+	int i;
+
+	i = printf("-->|%#5X|<--\n", 34);
+	printf("%i\n", i);
+	i = ft_printf("-->|%#5X|<--\n", 34);
+	printf("%i\n", i);
 	return (0);
 }

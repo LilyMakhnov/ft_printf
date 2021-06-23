@@ -6,7 +6,7 @@
 /*   By: esivre <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/06/21 22:56:51 by esivre            #+#    #+#             */
-/*   Updated: 2021/06/22 04:37:32 by esivre           ###   ########.fr       */
+/*   Updated: 2021/06/23 17:23:44 by esivre           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,13 +49,14 @@ int	ft_case_hexa(va_list arg, t_flags flags)
 	int				fill;
 	int				nbzero;
 
-//	i = va_arg(arg, unsigned int);
 	i = convert(arg, flags, 0);
 	wc = ft_size_nb(i, 16);
 	nbzero = ft_max(wc, flags.precision) - wc;
 	fill = ft_max(flags.fieldwidth - ft_max(wc
 				+ 2 * flags.hashtag * (1 - dirac(i)), flags.precision), 0);
 	wc += exception(i, &fill, &nbzero, flags);
+	if (flags.hashtag == 1 && i)
+		fill = ft_max(fill - 2, 0);
 	if (!flags.minus)
 		while (fill--)
 			ft_putchar_fd(' ', 1);
@@ -83,14 +84,19 @@ int	ft_case_pointer(va_list arg, t_flags flags)
 	wc = ft_size_nb(i, 16);
 	nbzero = ft_max(wc, flags.precision) - wc;
 	fill = ft_max(flags.fieldwidth - ft_max(wc, flags.precision) - 2, 0);
+	if (!i && !flags.precision && flags.fieldwidth > 2)
+		fill++;
 	wc += nbzero + fill;
 	if (!flags.minus)
 		while (fill--)
 			ft_putchar_fd(' ', 1);
 	wc += prepend_hexa('x');
-	while (nbzero--)
+	while (nbzero-- && !i)
 		ft_putchar_fd('0', 1);
-	ft_putnbr_hexa(i, 'x');
+	if (!(!i && !flags.precision))
+		ft_putnbr_hexa(i, 'x');
+	else
+		wc--;
 	while (fill-- && flags.minus)
 		ft_putchar_fd(' ', 1);
 	return (wc);

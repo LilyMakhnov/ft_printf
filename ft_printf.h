@@ -6,7 +6,7 @@
 /*   By: esivre <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/06/11 12:31:43 by esivre            #+#    #+#             */
-/*   Updated: 2021/06/22 04:04:48 by esivre           ###   ########.fr       */
+/*   Updated: 2021/06/23 13:32:59 by esivre           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -66,5 +66,9 @@ int		ft_case_unsint(va_list arg, t_flags flags);
 int		ft_conv(va_list arg, t_flags flags);
 int		prepend_hexa(char a);
 int		ft_printf(const char * format, ...);
+int		dirac(int a);
+int		ft_case_float(va_list arg, t_flags flags);
+long		convert(va_list arg, t_flags flags, char sgd);
+
 
 #endif
