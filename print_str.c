@@ -6,7 +6,7 @@
 /*   By: esivre <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/06/11 16:46:43 by esivre            #+#    #+#             */
-/*   Updated: 2021/06/22 00:15:50 by esivre           ###   ########.fr       */
+/*   Updated: 2021/06/24 14:21:13 by esivre           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,7 +42,7 @@ int	printf_str(va_list arg, t_flags flags)
 	if (flags.fieldwidth < 0)
 		flags.fieldwidth = ft_strlen(str);
 	nbrchar = ft_min(flags.precision, (int)ft_strlen(str));
-	fill = ft_max(flags.fieldwidth - nbrchar, 0);
+	fill = mult_heaviside(flags.fieldwidth - nbrchar);
 	print_str(str, fill, flags);
 	return (nbrchar + fill);
 }

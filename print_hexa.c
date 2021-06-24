@@ -6,7 +6,7 @@
 /*   By: esivre <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/06/21 22:56:51 by esivre            #+#    #+#             */
-/*   Updated: 2021/06/23 17:23:44 by esivre           ###   ########.fr       */
+/*   Updated: 2021/06/24 14:28:52 by esivre           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,33 +35,21 @@ int	prepend_hexa(char a)
 	return (2);
 }
 
-int	dirac(int i)
-{
-	if (!i)
-		return (1);
-	return (0);
-}
-
 int	ft_case_hexa(va_list arg, t_flags flags)
 {
 	unsigned long long	i;
-	int				wc;
-	int				fill;
-	int				nbzero;
+	int					wc;
+	int					fill;
+	int					nbzero;
 
 	i = convert(arg, flags, 0);
 	wc = ft_size_nb(i, 16);
-	nbzero = ft_max(wc, flags.precision) - wc;
-	fill = ft_max(flags.fieldwidth - ft_max(wc
-				+ 2 * flags.hashtag * (1 - dirac(i)), flags.precision), 0);
-	wc += exception(i, &fill, &nbzero, flags);
-	if (flags.hashtag == 1 && i)
-		fill = ft_max(fill - 2, 0);
+	nbzero = mult_heaviside(flags.precision - wc);
+	fill = mult_heaviside(flags.fieldwidth - wc - nbzero);
+	wc += exception(i, &fill, &nbzero, &flags);
 	if (!flags.minus)
 		while (fill--)
 			ft_putchar_fd(' ', 1);
-	if (flags.hashtag == 1 && i)
-		wc += prepend_hexa(flags.convertspec);
 	while (nbzero--)
 		ft_putchar_fd('0', 1);
 	if (!(!i && !flags.precision))
@@ -82,8 +70,8 @@ int	ft_case_pointer(va_list arg, t_flags flags)
 
 	i = (unsigned long long)va_arg(arg, unsigned long long);
 	wc = ft_size_nb(i, 16);
-	nbzero = ft_max(wc, flags.precision) - wc;
-	fill = ft_max(flags.fieldwidth - ft_max(wc, flags.precision) - 2, 0);
+	nbzero = mult_heaviside(flags.precision - wc);
+	fill = mult_heaviside(flags.fieldwidth - wc - nbzero - 2);
 	if (!i && !flags.precision && flags.fieldwidth > 2)
 		fill++;
 	wc += nbzero + fill;

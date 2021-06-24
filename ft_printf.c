@@ -6,17 +6,17 @@
 /*   By: esivre <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/06/21 22:34:40 by esivre            #+#    #+#             */
-/*   Updated: 2021/06/22 05:48:26 by esivre           ###   ########.fr       */
+/*   Updated: 2021/06/24 14:26:24 by esivre           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "ft_printf.h"
 
-int	exception(int i, int *fill, int *nbzero, t_flags flags)
+int	exception(int i, int *fill, int *nbzero, t_flags *flags)
 {
-	if (flags.precision == 0 && flags.fieldwidth != 0 && i == 0)
+	if (flags->precision == 0 && flags->fieldwidth != 0 && i == 0)
 		(*fill)++;
-	if (flags.zero == '0' && !flags.minus && flags.precision < 0)
+	if (flags->zero == '0' && !flags->minus && flags->precision < 0)
 	{
 		(*nbzero) += *fill;
 		*fill = 0;
@@ -41,8 +41,6 @@ int	ft_conv(va_list arg, t_flags flags)
 		written_char += ft_case_unsint(arg, flags);
 	else if (flags.convertspec == 'x' || flags.convertspec == 'X')
 		written_char += ft_case_hexa(arg, flags);
-	else if (flags.convertspec == 'f')
-		written_char += ft_case_float(arg, flags);
 	else if (flags.convertspec == '%')
 		written_char += printf_percent(flags);
 	return (written_char);
